@@ -1,32 +1,40 @@
-<template>
+	<template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <h1>今日头条</h1>
+    <i class="toutiao toutiao-shipin"></i>
+    <van-button type="primary">主要按钮</van-button>
+    <van-button type="info">信息按钮</van-button>
+    <van-button type="default">默认按钮</van-button>
+    <van-button type="warning">警告按钮</van-button>
+    <van-button type="danger">危险按钮</van-button>
+    
+    <van-cell-group>
+      <van-cell title="单元格" value="内容" />
+      <van-cell title="单元格" value="内容" label="描述信息" />
+    </van-cell-group>
+     <router-view />
+    <div class="box" style="padding:20px">hello world!!!</div>
   </div>
 </template>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import Vue from 'vue';
+import { Button } from 'vant';
+import { Cell, CellGroup } from 'vant';
+
+Vue.use(Cell);
+Vue.use(CellGroup);
+Vue.use(Button);
+export default {
+  name: 'App'
 }
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+</script>
+<style scoped lang="less">
+.box{
+  width: 200px;
+  height: 200px;
+  background-color: aqua;
+  font-size: 50px;
 }
 </style>
+				
