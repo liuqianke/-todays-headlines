@@ -4,7 +4,7 @@
         <div slot="label">
             <div v-if="article.cover.type === 3" class="cover-wrap">
                 <div class="cover-item" v-for="(img, index) in article.cover.images" :key="index">
-                    <van-image class="cover-item-img" fit="cover" :src="img" />
+                    <van-image class="cover-item-img" lazy-load fit="cover" :src="img" />
                 </div>
             </div>
             <div class="label-info-wrap">
