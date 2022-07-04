@@ -2,7 +2,9 @@
   <div class="channel-edit">
     <van-cell :border="false">
       <div slot="title" class="title-text">我的频道</div>
-      <!-- 写了title 左边位置    再写内容就为 value的位置 右边 -->
+      <!-- 左边 -->
+
+      <!-- 右边 -->
       <van-button
         class="edit-btn"
         type="danger"
@@ -27,17 +29,11 @@
                       true，则作用该类名
                       false，不作用类名
          -->
-
-        <!-- 先全统一 发现一样的过滤掉 -->
-
-        <!-- 小叉叉 -->
         <van-icon
           v-show="isEdit && !fiexdChannels.includes(channel.id)"
           slot="icon"
           name="clear"
         ></van-icon>
-
-        <!-- 选中变色  显示内容 -->
         <span class="text" :class="{ active: index === active }" slot="text">{{
           channel.name
         }}</span>
@@ -89,6 +85,7 @@ export default {
       allChannels: [], // 所有频道
       isEdit: false, // 控制编辑状态的显示
       fiexdChannels: [0], // 固定频道，不允许删除
+      // 全统一过滤掉 
     };
   },
   computed: {
@@ -152,7 +149,8 @@ export default {
             id: channel.id, // 频道ID
             seq: this.myChannels.length, // 序号
           });
-          setItem("USER_TOUTIAO_CHANNELS", this.myChannels);
+           setItem("USER_TOUTIAO_CHANNELS", this.myChannels);
+          //  缓存到本地
         } catch (err) {
           this.$toast("保存失败，请稍后重试");
         }
@@ -161,7 +159,6 @@ export default {
         setItem("TOUTIAO_CHANNELS", this.myChannels);
       }
     },
-
     onMyChannelClick(channel, index) {
       if (this.isEdit) {
         // 1. 如果是固定频道，则不删除
@@ -176,6 +173,7 @@ export default {
         // 参数1：要删除的元素的开始索引（包括）
         // 参数2：删除的个数，如果不指定，则从参数1开始一直删除到最后
         if (index <= this.active) {
+          // 删当前 选中 之前的频道会走小于 
           // 让激活频道的索引 - 1
           this.$emit("update-active", this.active - 1, true);
         }
@@ -221,26 +219,21 @@ export default {
     color: #f85959;
     border: 1px solid #f85959;
   }
-
   /deep/ .grid-item {
     width: 160px;
     height: 86px;
-
     .van-grid-item__content {
       white-space: nowrap;
       background-color: #f4f5f6;
-
       .van-grid-item__text,
       .text {
         font-size: 28px;
         color: #222;
         margin-top: 0;
       }
-
       .active {
         color: red;
       }
-
       .van-grid-item__icon-wrapper {
         position: unset;
       }
@@ -264,7 +257,6 @@ export default {
     .grid-item {
       .van-grid-item__content {
         flex-direction: row;
-
         .van-icon-plus {
           font-size: 28px;
           margin-right: 6px;

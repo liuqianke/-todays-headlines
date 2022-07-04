@@ -1,26 +1,18 @@
 <template>
   <div class="home-container">
     <!-- 导航栏 -->
-
-    <van-nav-bar class="page-nav-bar" fixed @click-left="showPopup" @click-right="showPopupa">
-      <template #left>
-        <van-icon name="wap-nav" size="18" />
-      </template>
-      <template #right>
-        <van-icon name="search" size="18" />
-      </template>
-      <!-- <van-nav-bar left-text="内容1" right-text="内容2" left-arrow right-arrow @click-left="showPopup"
-      @click-right="showPopupa" /> -->
-
-      <van-button class="search-btn" slot="title" type="info" size="small" round icon="search" to="/search">搜索
-      </van-button>
+    <van-nav-bar class="page-nav-bar" fixed>
+      <van-button
+        class="search-btn"
+        slot="title"
+        type="info"
+        size="small"
+        round
+        icon="search"
+        to="/search"
+        >搜索</van-button
+      >
     </van-nav-bar>
-
-    
-    <van-popup v-model="show" position="left" closeable close-icon-position="top-right" close-icon="close"
-      :style="{ width: '85%', height: '100%' }" round>内容1</van-popup>
-    <van-popup v-model="showa" position="right" closeable close-icon-position="top-right" close-icon="close"
-      :style="{ width: '85%', height: '100%' }" round>内容2</van-popup>
     <!-- /导航栏 -->
 
     <!-- 频道列表 -->
@@ -30,22 +22,39 @@
       通过 swipeable 属性可以开启滑动切换标签页
      -->
     <van-tabs class="channel-tabs" v-model="active" animated swipeable>
-      <van-tab :title="channel.name" v-for="channel in channels" :key="channel.id">
+      <van-tab
+        :title="channel.name"
+        v-for="channel in channels"
+        :key="channel.id"
+      >
         <!-- 文章列表 -->
         <article-list ref="article-list" :channel="channel" />
         <!-- 文章列表 -->
       </van-tab>
       <div slot="nav-right" class="placeholder"></div>
-      <div slot="nav-right" class="hamburger-btn" @click="isChennelEditShow = true">
+      <div
+        slot="nav-right"
+        class="hamburger-btn"
+        @click="isChennelEditShow = true"
+      >
         <i class="toutiao toutiao-gengduo"></i>
       </div>
     </van-tabs>
     <!-- /频道列表 -->
 
     <!-- 频道编辑弹出层 -->
-    <van-popup v-model="isChennelEditShow" closeable close-icon-position="top-left" position="bottom"
-      :style="{ height: '100%' }">
-      <channel-edit :my-channels="channels" :active="active" @update-active="onUpdateActive" />
+    <van-popup
+      v-model="isChennelEditShow"
+      closeable
+      close-icon-position="top-left"
+      position="bottom"
+      :style="{ height: '100%' }"
+    >
+      <channel-edit
+        :my-channels="channels"
+        :active="active"
+        @update-active="onUpdateActive"
+      />
     </van-popup>
     <!-- /频道编辑弹出层 -->
   </div>
@@ -57,7 +66,6 @@ import ArticleList from "./components/article-list";
 import ChannelEdit from "./components/channel-edit";
 import { mapState } from "vuex";
 import { getItem, setItem } from "@/utils/storage";
-
 export default {
   name: "HomeIndex",
   components: {
@@ -67,8 +75,6 @@ export default {
   props: {},
   data() {
     return {
-      show: false,
-      showa: false,
       active: 0,
       channels: [], // 频道列表
       isChennelEditShow: false, // 控制编辑频道弹出层的显示状态
@@ -81,51 +87,56 @@ export default {
   created() {
     this.loadChannels();
   },
-  mounted() { },
+  mounted() {},
   methods: {
-    showPopup() {
-      this.show = true;
-    },
-    showPopupa() {
-      this.showa = true;
-    },
     async loadChannels() {
-      try {
+      try {    
         // const { data } = await getUserChannels()
         // this.channels = data.data.channels
         let channels = [];
-        // 登录和没登陆的数据不一样 登录加token
-        // 判断登录和没登陆
+           // 登录和没登陆的数据不一样 登录加token
+            // 判断登录和没登陆
         if (this.user) {
           // 已登录，请求获取用户频道列表
-          const localChannels = getItem("USER_TOUTIAO_CHANNELS"); //    有，拿来使用
+           const localChannels = getItem("USER_TOUTIAO_CHANNELS");
+          //    有，拿来使用
           if (localChannels) {
             channels = localChannels;
           } else {
-            //    没有，请求获取默认频道列表
+            //    没有，请求获取默认频道列表
             const { data } = await getUserChannels();
             channels = data.data.channels;
-            setItem("USER_TOUTIAO_CHANNELS", channels);
+            setItem("USER_TOUTIAO_CHANNELS",channels)
           }
           const { data } = await getUserChannels();
           channels = data.data.channels;
         } else {
           // 未登录，判断是否有本地的频道列表数据
-          const localChannels = getItem("TOUTIAO_CHANNELS"); //    有，拿来使用
+          const localChannels = getItem("TOUTIAO_CHANNELS");
+          //    有，拿来使用
           if (localChannels) {
             channels = localChannels;
           } else {
-            //    没有，请求获取默认频道列表
+            //    没有，请求获取默认频道列表
             const { data } = await getUserChannels();
             channels = data.data.channels;
-            setItem("TOUTIAO_CHANNELS", channels);
+            setItem("TOUTIAO_CHANNELS",channels)
           }
+          
         }
 
         this.channels = channels;
       } catch (err) {
         this.$toast("获取频道数据失败");
       }
+    },
+
+    onUpdateActive(index, isChennelEditShow = true) {
+      // 更新激活的频道项
+      this.active = index;
+
+      // 关闭编辑频道弹层
+      this.isChennelEditShow = isChennelEditShow;
     },
   },
 };
@@ -135,18 +146,15 @@ export default {
 .home-container {
   padding-top: 174px;
   padding-bottom: 100px;
-
   .van-nav-bar__title {
     max-width: unset;
   }
-
   .search-btn {
     width: 450px;
     height: 64px;
     background-color: #5babfb;
     border: none;
     font-size: 28px;
-
     .van-icon {
       font-size: 32px;
     }
@@ -200,11 +208,9 @@ export default {
       height: 82px;
       background-color: #fff;
       background-color: rgba(255, 255, 255, 0.902);
-
       i.toutiao {
         font-size: 33px;
       }
-
       &:before {
         content: "";
         position: absolute;
@@ -216,9 +222,5 @@ export default {
       }
     }
   }
-}
-
-.van-nav-bar__text {
-  color: black !important;
 }
 </style>

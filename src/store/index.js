@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getItem, setItem } from '@/utils/storage'
-const TOKEN_KEY = 'TOUTIAO_USER'
 
+import { getItem, setItem } from '@/utils/storage'
+        const TOKEN_KEY = 'TOUTIAO_USER'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -12,17 +12,20 @@ export default new Vuex.Store({
     // user: JSON.parse(window.localStorage.getItem(TOKEN_KEY))
     // user: null
   },
-  getters: {
-  },
   mutations: {
-    setUser(state, data) {
+    setUser (state, data) {
       state.user = data
 
       // 为了防止刷新丢失，我们需要把数据备份到本地存储
       setItem(TOKEN_KEY, state.user)
       // window.localStorage.setItem(TOKEN_KEY, JSON.stringify(state.user))
     }
+  }
+
+,
+  getters: {
   },
+ 
   actions: {
   },
   modules: {
